@@ -105,3 +105,32 @@ def profile(request):
 
     return render(request, 'base/profile.html', context)
 
+def add_to_cart(request, pk):
+  post = get_object_or_404(Book, pk=pk)
+  if request.method == 'POST':
+    cart = Cart.objects.create(book=post, user=request.user)
+    cart.save()
+  return redirect('book-detail', pk=post.pk)
+
+def delete_from_cart(request, pk):
+  post = get_object_or_404(Book, pk=pk)
+  if request.method == 'POST':
+    cart = get_object_or_404(Cart, book=post)
+    cart.delete()
+  return redirect('book-detail', pk=post.pk)
+
+def delete_cart(request, pk):
+  cart = get_object_or_404(Cart, pk=pk)
+  cart.delete()
+  return redirect('cart-list')
+
+def all_cart(request):
+  carts = Cart.objects.filter(user=request.user.pk, done=False)
+  total = carts.aggregate(Sum('book__price'))
+  return render(request ,'base/cart_list.html', { 'carts':carts , 'total': total })
+
+def delete_all_cart(request):
+  carts = Cart.objects.filter(user=request.user.pk, done=False)
+  for cart in carts:
+    cart.delete()
+  return redirect('cart-list')
