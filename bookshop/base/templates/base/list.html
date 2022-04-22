@@ -1,0 +1,147 @@
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Album example for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/album/album.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+
+      <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Книжный магазин</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="">Books <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart-list' %}">Cart</a>
+            </li>
+          </ul>
+
+          <form class="form-inline mt-2 mt-md-0">
+             {% if user.is_authenticated  %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+               <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="nav-item ">
+               <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+            </li>
+          </ul>
+             {% else %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'signup' %}">SignUp</a>
+            </li>
+          </ul>
+             {% endif %}
+          </form>
+
+        </div>
+      </nav>
+    </header>
+        <br>
+    <br>
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Book Shop</h1>
+          <p class="lead text-muted">A Better Way to Buy Books Online. Every Purchase Supports Local Bookstores!</p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        
+        <div class="container">
+          <form method = "get">
+      <div class="form-row">
+       <div class="form-group col-md-4">
+        {% csrf_token %}
+        {{ filter.form.name }}
+      </div>
+      
+
+      <div class="form-group col-md-4">
+        {{ filter.form.genre }}
+      </div>
+      <div class="form-group col-md-3">
+        <button type="submit" class="btn btn-success">Найти</button>
+        <a href="{% url 'book-list' %}"> Сбросить фильтр</a>
+      </div>
+    </div>
+          </form>
+          <div class="row">
+            {% for book in book_page_obj %}
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                
+                <div class="card-body">
+                  <p class="card-text"><a href="{% url 'book-detail' book.pk %}">{{ book.name }}</a></p>
+                  <p class="card-text">{{ book.about|safe }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'book-detail' book.pk %}">View Detail</a></button>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
+  </body>
+</html>
+

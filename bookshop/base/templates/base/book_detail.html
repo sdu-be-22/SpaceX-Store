@@ -1,0 +1,145 @@
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>{{ object.name }}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/album/album.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Book shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'book-list' %}">Books <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart-list' %}">Cart</a>
+            </li>
+          </ul>
+                    <form class="form-inline mt-2 mt-md-0">
+             {% if user.is_authenticated  %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+               <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="nav-item ">
+               <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+            </li>
+          </ul>
+             {% else %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'signup' %}">SignUp</a>
+            </li>
+          </ul>
+             {% endif %}
+          </form>
+        </div>
+      </nav>
+    </header>
+    <br>
+    <br>
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">{{ object.name }}</h1>
+          <p class="lead text-muted">{{ object.about|safe }}</p>
+          <p> price - {{object.price}}</p>
+          <p>
+            {% if object.image %}
+        <img src="{{ object.image.url }}" class="img-fluid">
+          {% endif %}
+          {% if cart %}
+          
+          <form method="post", action="{% url 'delete-from-cart' object.pk %}">
+          {% csrf_token %}
+          <p class="prod-addwrap">
+            <button class="prod-add" rel="nofollow">Удалить из корзины
+          </p>
+          </form>
+          {% else %}
+          <form method="post", action="{% url 'add-to-cart' object.pk %}">
+          {% csrf_token %}
+          <p class="prod-addwrap">
+            <button class="prod-add" rel="nofollow">Добавить в корзину
+          </p>
+          </form>
+          {% endif %}
+          </p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        
+        <div class="container">
+                    <div class="prod-tab" id="prod-tab-5">
+            {% if comments %}
+            <ul class="reviews-list">
+              {% for review in comments %}
+              <li class="reviews-i">
+                <div class="reviews-i-cont">
+                  {{review.text}}
+                  <span class="reviews-i-margin"></span>
+                  <p> {{review.user.get_full_name }}</p>
+                </div>
+              </li>
+              {% endfor%}
+            </ul>
+            {% else %}
+            <h5>no reviews</h5>
+            {% endif %}
+            <div class="prod-comment-form">
+              <h5>add review</h5>
+              <form method="POST" action="">{% csrf_token %}
+                <textarea placeholder="You review" name="text"></textarea>
+                <div class="prod-comment-submit">
+                  <input type="submit" value="submit">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
+  </body>
+</html>
+

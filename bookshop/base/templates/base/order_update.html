@@ -1,0 +1,81 @@
+{% load crispy_forms_tags %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Profile</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">
+  </head>
+      <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Book shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'book-list' %}">Books <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart-list' %}">Cart</a>
+            </li>
+          </ul>
+
+          <form class="form-inline mt-2 mt-md-0">
+             {% if user.is_authenticated  %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+               <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="nav-item ">
+               <a class="nav-link active" href="{% url 'profile' %}">{{ user.username }}</a>
+            </li>
+          </ul>
+             {% else %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'signup' %}">SignUp</a>
+            </li>
+          </ul>
+             {% endif %}
+          </form>
+
+        </div>
+      </nav>
+    </header>
+        <br>
+    <br>
+  <body class="text-center">
+    <form class="form-signin" method='post'>
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+      {% csrf_token %}
+              {{ form|crispy }}
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Make an order</button>
+    </form>
+  </body>
+</html>
+
