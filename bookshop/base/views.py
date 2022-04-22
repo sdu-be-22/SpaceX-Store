@@ -29,3 +29,16 @@ from django.db.models import Sum
 		fields = [
 			'text',
 		]
+
+		class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email' , 'first_name','last_name' ]
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'base/signup.html'
