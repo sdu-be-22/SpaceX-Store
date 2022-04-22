@@ -85,3 +85,23 @@ class BookDetailView(LoginRequiredMixin, DetailView, FormMixin):
 
 	def get_success_url(self):
 		return reverse('book-detail', kwargs={'pk': self.object.pk})
+	
+	
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+
+    context = {
+        'u_form': u_form,
+    }
+
+    return render(request, 'base/profile.html', context)
+
