@@ -1,5 +1,5 @@
 # SpaceX-Store
-### description
+### DESCRIPTION
 This is a Python based project, which aims to build an online bookstore website with effective customer profiling system. In this bookstore customer will be able to purchase books online. Our project basically consists of: 
 Selecting books by genres or names, 
 Adding items to the cart, 
