@@ -56,3 +56,32 @@ class BooksListView(ListView):
 		job_page_obj = paginated_filtered_jobs.get_page(page_number)
 		context['book_page_obj'] = job_page_obj
 		return context
+class BookDetailView(LoginRequiredMixin, DetailView, FormMixin):
+	model = Book
+	template_name = 'base/book_detail.html'	
+	form_class = CommentModelForm
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		if Cart.objects.filter(book=self.object).exists():
+			context['cart'] = True
+		context['form'] = self.get_form()
+		context['comments'] = Comment.objects.filter(book=self.object)
+		return context
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form = self.get_form()
+		if form.is_valid():
+			return self.form_valid(form)
+		else:
+			return self.form_invalid(form)
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		form.instance.book = self.object
+		form.save()
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse('book-detail', kwargs={'pk': self.object.pk})
