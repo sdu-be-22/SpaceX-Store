@@ -31,3 +31,8 @@ class Cart(models.Model):
         user = models.ForeignKey(User, on_delete=models.CASCADE)
         done = models.BooleanField(default=False)
         ordering = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+	
+	class Comment(models.Model):
+	book = models.ForeignKey(Book, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	text = models.CharField(max_length=1024)
