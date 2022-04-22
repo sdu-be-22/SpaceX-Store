@@ -22,7 +22,12 @@ class Book(models.Model):
 	def __str__(self):
 		return self.name
 class Order(models.Model):
-user = models.ForeignKey(User, on_delete=models.CASCADE)
-name = models.CharField(max_length=128)
-postcode = models.CharField(max_length=8)
-address = models.CharField(max_length=256)
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        name = models.CharField(max_length=128)
+        postcode = models.CharField(max_length=8)
+        address = models.CharField(max_length=256)
+class Cart(models.Model):
+        book = models.ForeignKey(Book, on_delete=models.CASCADE)
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        done = models.BooleanField(default=False)
+        ordering = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
