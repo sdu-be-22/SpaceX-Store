@@ -134,3 +134,27 @@ def delete_all_cart(request):
   for cart in carts:
     cart.delete()
   return redirect('cart-list')
+
+def orderCreate(request):
+	order = Order(user=request.user)
+	order.save()
+	carts = Cart.objects.filter(user=request.user.pk, done=False)
+	for cart in carts:
+		cart.ordering = order
+		cart.save()
+	return redirect('order-update', pk=order.pk)
+
+class OrderUpdate(UpdateView):
+	model = Order
+	template_name = 'base/order_update.html' 
+	fields = ['name', 'postcode', 'address']
+	def form_valid(self, form):
+		messages.success(self.request, "Success order")
+		form.instance.user = self.request.user
+		carts = Cart.objects.filter(user=self.request.user.pk, done=False)
+		for cart in carts:
+			cart.delete()
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse('book-list')
