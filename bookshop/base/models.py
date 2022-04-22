@@ -21,3 +21,8 @@ class Book(models.Model):
 
 	def __str__(self):
 		return self.name
+class Order(models.Model):
+user = models.ForeignKey(User, on_delete=models.CASCADE)
+name = models.CharField(max_length=128)
+postcode = models.CharField(max_length=8)
+address = models.CharField(max_length=256)
