@@ -7,3 +7,9 @@ from django.views.generic import (
 	DeleteView,
 	FormView
 )
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import FormMixin
+
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
