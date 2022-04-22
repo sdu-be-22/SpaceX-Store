@@ -1,6 +1,6 @@
 <p align ="center">
-#        SpaceX-Store
-  </P>
+       SpaceX-Store
+  </p>
 ## DESCRIPTION
 ### This is a Python based project, which aims to build an online bookstore website with effective customer profiling system.
 
