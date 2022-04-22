@@ -1,5 +1,16 @@
 # SpaceX-Store
 ### description
+This is a Python based project, which aims to build an online bookstore website with effective customer profiling system. In this bookstore customer will be able to purchase books online. Our project basically consists of: 
+Selecting books by genres or names, 
+Adding items to the cart, 
+Calculating the total price,
+Signing up with the user information: name, surname, email, contact number;
+Logging In as ordinary users and admin;
+Adding reviews to the books, when user is logged in;
+Make an order;
+Database will contain all information about books, customers, orders and reviews. 
+This website can be used for business purposes to sell books via online.
+
 ### members
 + 200103195 [Yermukhambetova Aidana](https://github.com/Aidanaa22) 
 + 200103325 [Mussina Aidana](https://github.com/AidanaMussina)
